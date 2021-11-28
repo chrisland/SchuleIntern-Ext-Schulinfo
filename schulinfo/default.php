@@ -72,13 +72,15 @@ class extSchulinfoDefault extends AbstractPage {
 
         // Personalrat
         $personalratHTML= "";
-        for($i = 1; $i <= 20; $i++) {
-            if(DB::getSettings()->getValue("schulinfo-personalrat-" . $i . "-asvid") != "") {
-                $lehrer = lehrer::getByASVId(DB::getSettings()->getValue("schulinfo-personalrat-" . $i . "-asvid"));
-                if($lehrer != null) {
-                    $personalratHTML.= "<tr><td>" . $lehrer->getRufname() . " " . $lehrer->getName() . ", " . $lehrer->getAmtsbezeichnung()->getKurzform() . "</td><td>";
-                    $personalratHTML.= DB::getSettings()->getValue("schulinfo-personalrat-" . $i . "-funktion");
-                    $personalratHTML.= "</td></tr>";
+        if (DB::getSettings()->getValue("schulinfo-personalrat-show")) {
+            for($i = 1; $i <= 20; $i++) {
+                if(DB::getSettings()->getValue("schulinfo-personalrat-" . $i . "-userid") != "") {
+                    $lehrer = lehrer::getByUserID(DB::getSettings()->getValue("schulinfo-personalrat-" . $i . "-userid"));
+                    if($lehrer != null) {
+                        $personalratHTML.= "<tr><td>" . $lehrer->getRufname() . " " . $lehrer->getName() . ", " . $lehrer->getAmtsbezeichnung()->getKurzform() . "</td><td>";
+                        $personalratHTML.= DB::getSettings()->getValue("schulinfo-personalrat-" . $i . "-funktion");
+                        $personalratHTML.= "</td></tr>";
+                    }
                 }
             }
         }
